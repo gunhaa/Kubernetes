@@ -24,7 +24,16 @@ EXPOSE 80
 # volume을 동일한 옵션을 사용하면, 이전의 설정을 불러올 수 있다
 # docker volume prune 으로 익명 볼륨을 제거 할 수 있다
 # WSL2에서 해당 방법으로 마운트 시킬 수 있다
-# docker run -d -p 3000:80 --rm --name feedback-app -v "feedback:/app/feedback" -v "/mnt/c/workspace/git/Kubernetes/data-volumes-01-starting-setup:/app" feedback-node:volumes
-# docker run -d -p 3000:80 --rm --name feedback-app -v "feedback:/app/feedback" -v "$(pwd | sed 's/^\/mnt//'):/app" feedback-node:volumes
-CMD ["node", "server.js"]
+
+# window wsl2 환경에서는 반드시 다음에서 지시하는 것을 해야 해당 방식으로 마운트 시킬 수 있다
+# https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly#ensure-volume-mounts-work
+# docker run -d -p 3000:80 --name feedback-app -v "feedback:/app/feedback" -v "/app/node_modules" -v "/c/workspace/git/Kubernetes/data-volumes-01-starting-setup:/app" feedback-node:volumes
+# docker container에 넣을 때 원래 폴더의 node_modules를 유지시키는 방법은 -v 익명 볼륨 이용하는 것이다
+# -v 볼륨 사용은, 있는 폴더를 사용해서 매핑시킨다는 뜻으로 생각하면 될 것 같다
+# CMD ["node", "server.js"]
+
+# nodemon 사용
+# 윈도우에서 WSL2를 사용하는 경우, 리눅스 파일시스템에 파일이 따로 저장되는 것이기 때문에 nodemon을 사용할 수 없다.
+# 아래 링크를 통해 설정을 추가로 해줘야 사용할 수 있다.
+CMD ["npm", "start"]
 
