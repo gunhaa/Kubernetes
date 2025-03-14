@@ -1,5 +1,10 @@
 FROM node:latest
 
+# Dockerfile에서만 사용할 수 있음
+# ARG DEFAULT_PORT=80
+# docker build -t feedback-node:dev --build-arg DEFAULT_PORT=8000 .
+# 으로 같은 Dockerfile을 사용해 ARG 값만 다르게 사용 가능하다
+# ARG도 layer를 추가하기 때문에 위치가 중요하니 신경써야한다
 WORKDIR /app
 
 COPY package.json .
@@ -13,7 +18,9 @@ COPY . .
 # docker run -d -p 3000:8000 --rm --env PORT=8000 --name feedback-app -v feedback:/app/feedback feedback-node:volumes
 # 컨테이너 실행시 옵션을 넣어 덮어 쓸 수 있다
 # K = V 페어로 여러개를 넣을 수 있다.
-ENV PORT 80
+# ENV PORT 80
+ARG DEFAULT_PORT=80
+ENV PORT $DEFAULT_PORT
 
 # EXPOSE 80
 # 환경 변수를 알림 $
