@@ -46,4 +46,6 @@ app.post('/create', async (req, res) => {
   });
 });
 
-app.listen(80);
+// app.listen(80);
+// 환경 변수 이용, 각 언어마다 접근 방법들이 있다
+app.listen(process.env.PORT);

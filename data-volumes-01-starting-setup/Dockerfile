@@ -8,7 +8,16 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 80
+# 환경 변수 설정 
+# ENV 변수명 값
+# docker run -d -p 3000:8000 --rm --env PORT=8000 --name feedback-app -v feedback:/app/feedback feedback-node:volumes
+# 컨테이너 실행시 옵션을 넣어 덮어 쓸 수 있다
+# K = V 페어로 여러개를 넣을 수 있다.
+ENV PORT 80
+
+# EXPOSE 80
+# 환경 변수를 알림 $
+EXPOSE $PORT
 
 # 해당 볼륨은 익명 볼륨이다
 # 익명 볼륨은 컨테이너가 종료되면 사라진다
@@ -27,9 +36,11 @@ EXPOSE 80
 
 # window wsl2 환경에서는 반드시 다음에서 지시하는 것을 해야 해당 방식으로 마운트 시킬 수 있다
 # https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly#ensure-volume-mounts-work
-# docker run -d -p 3000:80 --name feedback-app -v "feedback:/app/feedback" -v "/app/node_modules" -v "/c/workspace/git/Kubernetes/data-volumes-01-starting-setup:/app" feedback-node:volumes
+# docker run -d -p 3000:80 --name feedback-app -v "feedback:/app/feedback" -v "/app/node_modules" -v "/c/workspace/git/Kubernetes/data-volumes-01-starting-setup:/app:ro" -v "/app/temp" feedback-node:volumes
 # docker container에 넣을 때 원래 폴더의 node_modules를 유지시키는 방법은 -v 익명 볼륨 이용하는 것이다
 # -v 볼륨 사용은, 있는 폴더를 사용해서 매핑시킨다는 뜻으로 생각하면 될 것 같다
+# :ro를 넣어, readonly로 만들 수 있다
+# 쓰는 폴더가 필요해 -v /app/temp로 작성해 구체적인 곳은 쓰기 가능하도록 만들어야 한다
 # CMD ["node", "server.js"]
 
 # nodemon 사용
