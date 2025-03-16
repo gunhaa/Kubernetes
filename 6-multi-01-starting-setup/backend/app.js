@@ -86,7 +86,14 @@ app.delete('/goals/:id', async (req, res) => {
 mongoose.connect(
   // 로컬 머신과 연결
   // 'mongodb://localhost:27017/course-goals',
-  'mongodb://host.docker.internal:27017/course-goals',
+  // -p 옵션을 이용한 연결
+  // 'mongodb://host.docker.internal:27017/course-goals',
+  // docker network를 이용한 연결, db 이름 입력
+  // 'mongodb://mongodb:27017/course-goals',
+  // docker env로 id gunha, pw secret 추가시 변경되는 코드
+  // 'mongodb://gunha:secret@mongodb:27017/course-goals?authSource=admin',
+  // ENV를 통해 동적으로 넣기
+  `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27017/course-goals?authSource=admin`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
