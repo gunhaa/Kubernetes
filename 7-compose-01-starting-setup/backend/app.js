@@ -91,6 +91,8 @@ mongoose.connect(
   },
   (err) => {
     if (err) {
+      console.log(process.env.MONGODB_USERNAME);
+      console.log(process.env.MONGODB_PASSWORD);
       console.error('FAILED TO CONNECT TO MONGODB');
       console.error(err);
     } else {
