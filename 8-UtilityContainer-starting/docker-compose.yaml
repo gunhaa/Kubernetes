@@ -6,3 +6,7 @@ services:
     tty: true
     volumes:
       - ./:/app
+# docker-compose up으로는 실행 시킬 수 없다
+# 뒤에 추가 인자가 올 수 없어서 entrypoint의 npm만 실행된다
+# docker-compose run init
+# docker-compose run install 등으로 실행 가능
